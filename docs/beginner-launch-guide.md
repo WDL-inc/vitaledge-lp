@@ -70,6 +70,20 @@ takumifujinumawdl/wdl_vitaledge_lp_v2
 
 Vercelは、GitHubのコードを読み取ってWebサイトとして公開してくれるサービスです。
 
+### 無料デプロイ用のImport元
+
+Vercel HobbyでGitHub Organization配下のリポジトリをImportできない場合は、無料デプロイ用のpublic mirrorを使います。
+
+```text
+https://github.com/takumifujinuma/vitaledge-lp-public
+```
+
+このmirrorはVercel無料枠に読み込ませるための公開コピーです。正式な会社側リポジトリは以下です。
+
+```text
+https://github.com/WDL-inc/vitaledge-lp
+```
+
 ### 1. Vercelにログイン
 
 Vercelにログインします。
@@ -91,7 +105,7 @@ Project
 ↓
 Import Git Repository
 ↓
-WDL-inc/vitaledge-lp
+takumifujinuma/vitaledge-lp-public
 ```
 
 もし `WDL-inc/vitaledge-lp` が表示されない場合は、VercelのGitHub連携に `WDL-inc` へのアクセス許可がありません。

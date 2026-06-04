@@ -10,7 +10,13 @@ Primary repository:
 https://github.com/WDL-inc/vitaledge-lp
 ```
 
-The previous personal repository is kept only as historical reference.
+Free Vercel Hobby deployment mirror:
+
+```text
+https://github.com/takumifujinuma/vitaledge-lp-public
+```
+
+Use the mirror only when Vercel Hobby cannot import the GitHub organization repository directly.
 
 ## Development
 

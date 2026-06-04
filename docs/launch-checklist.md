@@ -8,6 +8,12 @@ Target repository:
 https://github.com/WDL-inc/vitaledge-lp
 ```
 
+Free Vercel Hobby mirror:
+
+```text
+https://github.com/takumifujinuma/vitaledge-lp-public
+```
+
 Recommended policy:
 
 - Use the `WDL-inc` organization as the long-term owner.
