@@ -1,0 +1,47 @@
+# Sensitive / private
+contracts.json
+
+# Internal — AI operation files (not for client delivery)
+CLAUDE.md
+AGENTS.md
+dev/CLAUDE.md
+dev/AGENTS.md
+collection-guide.md
+
+# Internal research & design process
+reference/
+outputs/
+
+# Personal notes & meetings
+meetings/
+notes/
+
+# macOS
+.DS_Store
+*.pem
+
+# Nested git backup
+dev/.git_backup/
+
+# Next.js build output
+.next/
+out/
+build/
+dev/.next/
+dev/out/
+dev/build/
+
+# Dependencies
+dev/node_modules/
+node_modules/
+
+# TypeScript
+dev/next-env.d.ts
+dev/tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# Env files
+.env*
+
+# Vercel
+.vercel
