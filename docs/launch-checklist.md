@@ -96,12 +96,12 @@ vitaledge.jp
 
 Steps:
 
-1. Add `vitaledge.jp` in Vercel Project Settings > Domains.
-2. Decide whether `www.vitaledge.jp` is also used.
-3. Register Vercel's requested DNS records in お名前.com.
+1. Confirm `vitaledge.jp` and `www.vitaledge.jp` are added in Vercel Project Settings > Domains.
+2. In お名前.com, add `A` record `vitaledge.jp -> 76.76.21.21`.
+3. In お名前.com, add `A` record `www.vitaledge.jp -> 76.76.21.21`.
 4. Wait for DNS propagation.
 5. Confirm Vercel issues SSL certificates.
-6. Confirm the canonical URL redirects as intended.
+6. Confirm `https://vitaledge.jp` and `https://www.vitaledge.jp` load or redirect as intended.
 
 ## 7. Email / CTA
 

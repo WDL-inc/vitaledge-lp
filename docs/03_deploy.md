@@ -36,10 +36,12 @@ BASIC_AUTH_PASSWORD=十分に長いパスワード
 
 ### 独自ドメイン `vitaledge.jp` を使う場合
 
-1. Vercel の Project Settings > Domains で `vitaledge.jp` を追加
-2. Vercel に表示されるDNSレコードを、お名前.comのDNS設定へ登録
-3. 必要であれば `www.vitaledge.jp` も追加し、どちらを正規URLにするか決める
-4. Vercel 側でSSL証明書の発行完了を確認
+1. Vercel の Project Settings > Domains で `vitaledge.jp` と `www.vitaledge.jp` を追加
+2. お名前.comに `A vitaledge.jp 76.76.21.21` を登録
+3. お名前.comに `A www.vitaledge.jp 76.76.21.21` を登録
+4. DNS反映を待つ
+5. Vercel 側でSSL証明書の発行完了を確認
+6. どちらを正規URLにするかを確認する。推奨は `vitaledge.jp` を正規URLにすること
 
 ### 記事を追加・更新したあと
 

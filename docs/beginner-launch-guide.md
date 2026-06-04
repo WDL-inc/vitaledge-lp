@@ -189,6 +189,16 @@ vitaledge.jp
 www.vitaledge.jp
 ```
 
+2026-06-05時点では、Vercel側への登録は完了しています。
+
+```text
+Vercel project: vitaledge-lp-public
+Production URL: https://vitaledge-lp-public.vercel.app
+Custom domains:
+- vitaledge.jp
+- www.vitaledge.jp
+```
+
 おすすめは、どちらかを正規URLにすることです。
 
 例:
@@ -202,14 +212,25 @@ www.vitaledge.jp は vitaledge.jp にリダイレクト
 
 Vercelに表示されたDNSレコードを、お名前.comのDNS設定に登録します。
 
-よくあるパターン:
+今回Vercel CLIで確認した値は以下です。
 
 ```text
-Aレコード
-CNAMEレコード
+vitaledge.jp
+Type: A
+Host: 空欄 または @
+Value: 76.76.21.21
+
+www.vitaledge.jp
+Type: A
+Host: www
+Value: 76.76.21.21
 ```
 
-実際の値はVercel画面に表示されるものを使ってください。推測で入力しないでください。
+お名前.comの画面では、`Host` は「ホスト名」と表示されることがあります。`vitaledge.jp` 本体を設定する場合はホスト名を空欄にするUIもあります。
+
+Vercelはネームサーバーを `ns1.vercel-dns.com` / `ns2.vercel-dns.com` に変える方法も提示しますが、今回はお名前.comのネームサーバーを維持し、DNSレコードだけ追加する方針です。メールなど他のDNS設定を将来使う場合も、この方が影響範囲を小さくできます。
+
+DNS反映には数分から数時間かかることがあります。反映後、VercelがSSL証明書を自動発行し、`https://vitaledge.jp` で表示できるようになります。
 
 ## 公開前チェック
 
