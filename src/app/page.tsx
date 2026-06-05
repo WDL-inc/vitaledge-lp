@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { CaseCard } from "@/components/cases/case-card";
+import { casesEnabled } from "@/config/features";
 import { getLatestCases } from "@/lib/cases";
 import {
   heroStats,
@@ -31,7 +32,7 @@ function EyebrowLabel({ children }: { children: string }) {
 // ──────────────────────────────────────────────────────
 
 export default function TopPage() {
-  const latestCases = getLatestCases(4);
+  const latestCases = casesEnabled ? getLatestCases(4) : [];
 
   return (
     <>
@@ -92,62 +93,61 @@ export default function TopPage() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════
-          導入事例
-      ════════════════════════════════════════════════════ */}
-      <section className="px-6 py-16">
-        <div className="max-w-5xl mx-auto">
-          <div className="mb-10">
-<h2>導入事例</h2>
-          </div>
+      {casesEnabled && (
+        <section className="px-6 py-16">
+          <div className="max-w-5xl mx-auto">
+            <div className="mb-10">
+              <h2>導入事例</h2>
+            </div>
 
-          {/* SP: 横スクロールカード（section の px-6 を打ち消して全幅スクロール） */}
-          <div className="-mx-6 flex gap-5 overflow-x-auto pr-6 pb-2 snap-x snap-mandatory sm:hidden">
-            {latestCases.map((c, i) => (
-              <div key={c.slug} className={`min-w-[80vw] snap-start${i === 0 ? " pl-6" : ""}`}>
-                <CaseCard caseStudy={c} />
-              </div>
-            ))}
-          </div>
+            {/* SP: 横スクロールカード（section の px-6 を打ち消して全幅スクロール） */}
+            <div className="-mx-6 flex gap-5 overflow-x-auto pr-6 pb-2 snap-x snap-mandatory sm:hidden">
+              {latestCases.map((c, i) => (
+                <div key={c.slug} className={`min-w-[80vw] snap-start${i === 0 ? " pl-6" : ""}`}>
+                  <CaseCard caseStudy={c} />
+                </div>
+              ))}
+            </div>
 
-          {/* PC: 個別カード */}
-          <div className="hidden sm:flex flex-col gap-3">
-            {latestCases.map((c) => (
+            {/* PC: 個別カード */}
+            <div className="hidden sm:flex flex-col gap-3">
+              {latestCases.map((c) => (
+                <Link
+                  key={c.slug}
+                  href={`/cases/${c.slug}`}
+                  className="flex items-stretch bg-card border border-warm-200/60 rounded-xl group overflow-hidden"
+                >
+                  <div className="w-40 aspect-video bg-warm-100 shrink-0 overflow-hidden">
+                    <img src={c.thumbnail} alt={c.title} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="min-w-0 flex-1 px-5 flex flex-col justify-center">
+                    <p className="text-xs text-foreground mb-1">{c.industry}</p>
+                    <p className="text-base font-medium text-foreground group-hover:text-primary transition-colors line-clamp-1 leading-snug">
+                      {c.title}
+                    </p>
+                    <p className="text-xs text-foreground mt-1">{c.client}</p>
+                  </div>
+                  <svg className="w-4 h-4 text-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 mr-5 self-center" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-8">
               <Link
-                key={c.slug}
-                href={`/cases/${c.slug}`}
-                className="flex items-stretch bg-card border border-warm-200/60 rounded-xl group overflow-hidden"
+                href="/cases"
+                className="inline-flex items-center gap-1.5 text-base text-primary font-medium hover:underline underline-offset-4"
               >
-                <div className="w-40 aspect-video bg-warm-100 shrink-0 overflow-hidden">
-                  <img src={c.thumbnail} alt={c.title} className="w-full h-full object-cover" />
-                </div>
-                <div className="min-w-0 flex-1 px-5 flex flex-col justify-center">
-                  <p className="text-xs text-foreground mb-1">{c.industry}</p>
-                  <p className="text-base font-medium text-foreground group-hover:text-primary transition-colors line-clamp-1 leading-snug">
-                    {c.title}
-                  </p>
-                  <p className="text-xs text-foreground mt-1">{c.client}</p>
-                </div>
-                <svg className="w-4 h-4 text-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 mr-5 self-center" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden>
+                すべての導入事例を見る
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
               </Link>
-            ))}
+            </div>
           </div>
-
-          <div className="mt-8">
-            <Link
-              href="/cases"
-              className="inline-flex items-center gap-1.5 text-base text-primary font-medium hover:underline underline-offset-4"
-            >
-              すべての導入事例を見る
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ════════════════════════════════════════════════════
           課題提起（ホラーストーリー）

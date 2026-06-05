@@ -1,5 +1,7 @@
 import { CaseCard } from "@/components/cases/case-card";
+import { casesEnabled } from "@/config/features";
 import { getAllCases } from "@/lib/cases";
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,6 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default function CasesPage() {
+  if (!casesEnabled) notFound();
+
   const cases = getAllCases();
 
   return (

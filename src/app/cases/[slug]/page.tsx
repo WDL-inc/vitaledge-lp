@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { CaseCard } from "@/components/cases/case-card";
+import { casesEnabled } from "@/config/features";
 import {
   getCaseBySlug,
   getAllCaseSlugs,
@@ -12,6 +13,8 @@ import type { Metadata } from "next";
 // ── Static generation ──────────────────────────────────────────
 // Next.js 16: generateStaticParams に変更なし
 export function generateStaticParams() {
+  if (!casesEnabled) return [];
+
   return getAllCaseSlugs();
 }
 
@@ -22,6 +25,10 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  if (!casesEnabled) {
+    return { title: "ページが見つかりません | Vitaledge" };
+  }
+
   const { slug } = await params;
   const caseStudy = getCaseBySlug(slug);
   if (!caseStudy) return { title: "事例が見つかりません | Vitaledge" };
@@ -39,6 +46,8 @@ export default async function CaseDetailPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  if (!casesEnabled) notFound();
+
   const { slug } = await params;
   const caseStudy = getCaseBySlug(slug);
 

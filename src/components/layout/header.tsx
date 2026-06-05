@@ -3,11 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { casesEnabled } from "@/config/features";
 import { cn } from "@/lib/utils";
 
-const nav = [
-  { label: "導入事例", href: "/cases" },
-];
+const nav = casesEnabled ? [{ label: "導入事例", href: "/cases" }] : [];
 
 export function Header() {
   const pathname = usePathname();
