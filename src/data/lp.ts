@@ -169,7 +169,6 @@ export const footerServiceLinks = [
   { label: "サービスの特徴", href: "/#features" },
   { label: "ご利用料金", href: "/#pricing" },
   { label: "よくある質問", href: "/#faq" },
-  { label: "提携クリニック", href: "/#clinic" },
 ] as const;
 
 export const footerOtherLinks = [

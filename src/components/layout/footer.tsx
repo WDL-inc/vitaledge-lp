@@ -28,7 +28,6 @@ const serviceLinks = [
   { label: "サービスの特徴", href: "/#features" },
   { label: "ご利用料金", href: "/#pricing" },
   { label: "よくある質問", href: "/#faq" },
-  { label: "提携クリニック", href: "/#clinic" },
 ];
 
 export function Footer() {
