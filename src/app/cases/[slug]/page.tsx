@@ -9,6 +9,122 @@ import {
   getRelatedCases,
 } from "@/lib/cases";
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
+
+function renderInlineLinks(text: string): ReactNode[] {
+  const parts: ReactNode[] = [];
+  const linkPattern = /\[([^\]]+)\]\(([^)]*)\)/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = linkPattern.exec(text)) !== null) {
+    const [fullMatch, label, href] = match;
+    if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index));
+
+    if (href) {
+      parts.push(
+        <Link key={`${label}-${match.index}`} href={href}>
+          {label}
+        </Link>
+      );
+    } else {
+      parts.push(label);
+    }
+
+    lastIndex = match.index + fullMatch.length;
+  }
+
+  if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+
+  return parts;
+}
+
+function renderMarkdownBlock(block: string, index: number) {
+  const trimmed = block.trim();
+
+  if (!trimmed || trimmed === "---") return null;
+
+  const imageMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+  if (imageMatch) {
+    const [, alt, src] = imageMatch;
+    return (
+      <figure key={index} className="my-8 overflow-hidden rounded-xl border border-border bg-warm-100">
+        <img src={src} alt={alt} className="h-auto w-full object-cover" />
+      </figure>
+    );
+  }
+
+  if (trimmed.startsWith("## ")) {
+    return (
+      <h2 key={index} className="mt-10 mb-3 text-xl font-bold text-foreground">
+        {trimmed.replace(/^## /, "")}
+      </h2>
+    );
+  }
+
+  if (trimmed.startsWith("### ")) {
+    return (
+      <h3 key={index} className="mt-8 mb-2 text-lg font-semibold text-foreground">
+        {trimmed.replace(/^### /, "")}
+      </h3>
+    );
+  }
+
+  if (trimmed.startsWith("# ")) {
+    return (
+      <p key={index} className="mb-4 text-lg font-semibold text-foreground">
+        {trimmed.replace(/^# /, "")}
+      </p>
+    );
+  }
+
+  if (trimmed.startsWith("> ")) {
+    const quote = trimmed
+      .split("\n")
+      .map((line) => line.replace(/^>\s?/, ""))
+      .join("\n");
+
+    return (
+      <blockquote key={index} className="my-6 rounded-r-lg border-l-4 border-brand-400 bg-brand-50 px-6 py-4">
+        {quote.split("\n").map((line, lineIndex) => (
+          <p key={lineIndex} className="text-base leading-relaxed text-foreground">
+            {renderInlineLinks(line)}
+          </p>
+        ))}
+      </blockquote>
+    );
+  }
+
+  if (trimmed.startsWith("- ")) {
+    return (
+      <ul key={index} className="mb-6 list-disc space-y-2 pl-6">
+        {trimmed.split("\n").map((item) => (
+          <li key={item}>{renderInlineLinks(item.replace(/^-\s+/, ""))}</li>
+        ))}
+      </ul>
+    );
+  }
+
+  const ctaMatch = trimmed.match(/^\[([^\]]+)\]\(([^)]*)\)$/);
+  if (ctaMatch?.[2]) {
+    return (
+      <p key={index} className="my-8">
+        <Link
+          href={ctaMatch[2]}
+          className="inline-flex items-center rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+        >
+          {ctaMatch[1]} →
+        </Link>
+      </p>
+    );
+  }
+
+  return (
+    <p key={index} className="mb-4">
+      {renderInlineLinks(trimmed)}
+    </p>
+  );
+}
 
 // ── Static generation ──────────────────────────────────────────
 // Next.js 16: generateStaticParams に変更なし
@@ -94,22 +210,7 @@ export default async function CaseDetailPage({
 
           {/* Body */}
           <div className="text-muted-foreground leading-relaxed mb-8">
-            {caseStudy.body.split("\n\n").map((block, i) => {
-              const trimmed = block.trim();
-              if (trimmed.startsWith("## "))
-                return <h2 key={i} className="text-xl font-bold text-foreground mt-10 mb-3">{trimmed.replace(/^## /, "")}</h2>;
-              if (trimmed.startsWith("### "))
-                return <h3 key={i} className="text-lg font-semibold text-foreground mt-8 mb-2">{trimmed.replace(/^### /, "")}</h3>;
-              if (trimmed.startsWith("# "))
-                return <p key={i} className="text-lg font-semibold text-foreground mb-4">{trimmed.replace(/^# /, "")}</p>;
-              if (trimmed.startsWith("> "))
-                return (
-                  <blockquote key={i} className="my-6 bg-brand-50 border-l-4 border-brand-400 rounded-r-lg px-6 py-4">
-                    <p className="text-base text-foreground leading-relaxed">{trimmed.replace(/^> /, "")}</p>
-                  </blockquote>
-                );
-              return <p key={i} className="mb-4">{trimmed}</p>;
-            })}
+            {caseStudy.body.split("\n\n").map(renderMarkdownBlock)}
           </div>
 
           {/* Quote */}
