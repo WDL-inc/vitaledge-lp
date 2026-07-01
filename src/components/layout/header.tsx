@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { casesEnabled } from "@/config/features";
+import { consultationUrl } from "@/config/links";
 import { cn } from "@/lib/utils";
 
 const nav = casesEnabled ? [{ label: "導入事例", href: "/cases" }] : [];
@@ -55,7 +56,9 @@ export function Header() {
               );
             })}
             <Link
-              href="/#contact"
+              href={consultationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground text-sm font-semibold px-4 py-2 rounded-md hover:opacity-90 transition-opacity"
             >
               無料相談 →
@@ -157,7 +160,9 @@ export function Header() {
         {/* CTA */}
         <div className="px-6 pb-8 shrink-0">
           <Link
-            href="/#contact"
+            href={consultationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="block w-full text-center bg-primary text-primary-foreground text-sm font-semibold px-4 py-3 rounded-md hover:opacity-90 transition-opacity"
           >
             無料相談 →

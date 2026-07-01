@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { CaseCard } from "@/components/cases/case-card";
 import { casesEnabled } from "@/config/features";
+import { consultationUrl } from "@/config/links";
 import { getLatestCases } from "@/lib/cases";
 import {
   heroStats,
@@ -10,7 +11,6 @@ import {
   reasons,
   pricingPlans,
   faqs,
-  contactEmail,
   worries,
   worriesSP,
 } from "@/data/lp";
@@ -54,7 +54,9 @@ export default function TopPage() {
             心・脳健診サービス
           </h1>
           <Link
-            href="#contact"
+            href={consultationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="self-start inline-flex items-center gap-2 bg-primary text-white font-bold px-7 py-3.5 rounded-md text-sm hover:-translate-y-0.5 transition-all duration-200"
           >
             無料相談はこちらから →
@@ -362,7 +364,9 @@ export default function TopPage() {
                 {/* CTA */}
                 <div className="px-6 pt-4">
                   <Link
-                    href="#contact"
+                    href={consultationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={`block w-full text-center font-semibold text-sm px-4 py-3 rounded-lg transition-opacity duration-200 hover:opacity-90 cursor-pointer ${
                       cta.primary
                         ? "bg-primary text-primary-foreground"
@@ -405,7 +409,9 @@ export default function TopPage() {
             下記からご予約いただければ、担当者からご連絡いたします。
           </p>
           <Link
-            href={`mailto:${contactEmail}`}
+            href={consultationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-bold px-8 py-4 rounded-md text-sm hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
           >
             無料相談はこちらから →
@@ -457,7 +463,9 @@ export default function TopPage() {
             下記からご予約いただければ、担当者からご連絡いたします。
           </p>
           <Link
-            href={`mailto:${contactEmail}`}
+            href={consultationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-white text-primary font-bold px-8 py-4 rounded-md text-sm hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
           >
             無料相談はこちらから →

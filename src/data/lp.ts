@@ -3,6 +3,7 @@
 // UI ロジックは src/app/page.tsx / src/components/layout/footer.tsx を参照。
 
 import { CheckCircle, Activity, Star, type LucideIcon } from "lucide-react";
+import { consultationUrl } from "@/config/links";
 
 // ─── お悩み吹き出し ──────────────────────────────────────
 export const worries = [
@@ -68,7 +69,7 @@ export const reasons: Reason[] = [
     Icon: CheckCircle,
     title: "企業/従業員の費用負担0にて健診が実施できます*",
     body: "オフィス訪問型で受診ハードルを最小限に抑えます。",
-    cta: { label: "無料相談", href: "#contact", primary: true },
+    cta: { label: "無料相談", href: consultationUrl, primary: true },
   },
   {
     point: "POINT2",
