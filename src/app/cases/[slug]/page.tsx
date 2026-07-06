@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { CaseCard } from "@/components/cases/case-card";
@@ -162,7 +162,7 @@ export default async function CaseDetailPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  if (!casesEnabled) notFound();
+  if (!casesEnabled) redirect("/");
 
   const { slug } = await params;
   const caseStudy = getCaseBySlug(slug);
