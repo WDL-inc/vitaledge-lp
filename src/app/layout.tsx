@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Geist_Mono, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
@@ -26,11 +27,54 @@ export const metadata: Metadata = {
     "Vitaledgeは、企業の費用負担を抑えながら従業員の心・脳疾患リスクの早期発見を支援する、オフィス訪問型の二次健診サービスです。",
 };
 
-export default function RootLayout({
+const aioBoostSchemaUrls: Record<string, string> = {
+  "/": "https://vitaledge.jp/",
+  "/privacy": "https://vitaledge.jp/privacy",
+  "/terms": "https://vitaledge.jp/terms",
+};
+
+function normalizePathname(pathname: string | null) {
+  if (!pathname) return "/";
+  if (pathname !== "/" && pathname.endsWith("/")) {
+    return pathname.slice(0, -1);
+  }
+  return pathname;
+}
+
+function safeJsonLd(value: unknown) {
+  return JSON.stringify(value).replace(/</g, "\\u003c");
+}
+
+async function getAioBoostLdJson(pathname: string) {
+  const pageUrl = aioBoostSchemaUrls[normalizePathname(pathname)];
+  if (!pageUrl) return null;
+
+  try {
+    const endpoint = `https://tag.aioboost.net/schema?url=${encodeURIComponent(pageUrl)}&site=vitaledge&fast=1`;
+    const response = await fetch(endpoint, { cache: "force-cache" });
+    if (!response.ok) return null;
+
+    const payload = (await response.json()) as { ldjson?: unknown };
+    if (!Array.isArray(payload.ldjson) || payload.ldjson.length === 0) {
+      return null;
+    }
+
+    return payload.ldjson;
+  } catch {
+    return null;
+  }
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const requestHeaders = await headers();
+  const aioBoostLdJson = await getAioBoostLdJson(
+    requestHeaders.get("x-vitaledge-pathname") ?? "/"
+  );
+
   return (
     <html
       lang="ja"
@@ -46,6 +90,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-NJ6HQ7NW');`,
           }}
         />
+        {aioBoostLdJson ? (
+          <script
+            type="application/ld+json"
+            data-mh-injected="server"
+            dangerouslySetInnerHTML={{ __html: safeJsonLd(aioBoostLdJson) }}
+          />
+        ) : null}
       </head>
       <body className="min-h-full flex flex-col">
         <noscript>
